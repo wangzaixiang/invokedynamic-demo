@@ -1,3 +1,20 @@
 invokedynamic-demo
 
 This project provide some examples on the usage of Java7's invokedynamic
+
+src/demo/invoke/TestSimple.java	-- the test entry point which runs other code
+src/demo/invoke/TestInvokeDynamicConstantCallSiteDump
+	run this code to generate a class which contains invokedynamic with a ConstantCallSite
+	the generate class is under gen/demo/invoke/TestInvokeDynamicConstantCallSite.class
+src/demo/invoke/TestInvokeDynamicMutableCallSiteDump
+	run this code to generate a class which contains invokedynamic with a MutableCallSite
+	the generate class is under gen/demo/invoke/TestInvokeDynamicMutableCallSite.class
+
+	both the generator (*Dump) is copy the ASM dump from the TestInvokeDynamicPerformanceTemplate.java
+	by using the ASM-eclipse plugin
+	
+How to run code:
+1. runs TestInvokeDynamicConstantCallSiteDump and generate TestInvokeDynamicConstantCallSite
+2. runs TestInvokeDynamicMutableCallSiteDump and generate TestInvokeDynamicMutableCallSite
+3. runs the TestSimple class
+
