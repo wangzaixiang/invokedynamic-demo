@@ -18,3 +18,14 @@ How to run code:
 2. runs TestInvokeDynamicMutableCallSiteDump and generate TestInvokeDynamicMutableCallSite
 3. runs the TestSimple class
 
+Auto-Transform
+	invokedynamic/agent/*.java provide a simple javaagent which transform class 
+	which contains @InvokeDynamicTransformation and @InvokeDynamicBootstrap mark
+	will be transform to invokedynamic instruction.
+	
+	see an example of TestInvokeDynamicConstantCallSite.java
+	and you can run it directly via java -javaagent:invoke-dynamic-agent.jar TestInvokeDynamicCallSite
+	
+	TODO: the auto-transform is just a prototype now, need more works for bytecode process
+	
+
