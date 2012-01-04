@@ -16,6 +16,11 @@ public class TestInvokeDynamicConstantCallSite_plain {
 			args=Class.class)
 	private final static MethodHandle BSM = BootStrap(	String.class);
 	
+	public static void main(String[] args) throws Throwable {
+		System.out.println("Run the InvokeDynamic Test");
+		testInvokeDynamic();
+	}
+	
 	static void testInvokeDynamic() throws Throwable {
 		String test = "Hello World";
 

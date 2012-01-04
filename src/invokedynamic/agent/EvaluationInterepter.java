@@ -1,4 +1,6 @@
-package invokedynamic;
+package invokedynamic.agent;
+
+import invokedynamic.InvokeDynamicUtils;
 
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodType;

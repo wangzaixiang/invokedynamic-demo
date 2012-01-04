@@ -1,4 +1,4 @@
-package invokedynamic;
+package invokedynamic.agent;
 
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.analysis.BasicValue;

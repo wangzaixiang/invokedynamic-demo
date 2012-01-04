@@ -1,6 +1,8 @@
-package invokedynamic;
+package invokedynamic.agent;
 
-import invokedynamic.EvaluationInterepter.DumpMethodHandle;
+import invokedynamic.InvokeDynamicUtils;
+import invokedynamic.InvokeDynamicUtils.InvokeDynamicBootstrap;
+import invokedynamic.agent.EvaluationInterepter.DumpMethodHandle;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -97,19 +99,8 @@ public class InvokeDynamicTransfer {
 		this.classNode = classNode;
 	}
 
-	public static void main(String[] args) throws Exception {
 
-		ClassReader reader = new ClassReader(
-				TestInvokeDynamicConstantCallSite_plain.class.getName());
-
-		ClassNode node = new ClassNode();
-		reader.accept(node, 0);
-
-		new InvokeDynamicTransfer(node).transfer();
-
-	}
-
-	void transfer() throws Exception {
+	byte[] transfer() throws Exception {
 
 		findBSM(classNode);
 
@@ -117,21 +108,10 @@ public class InvokeDynamicTransfer {
 
 		ClassWriter writer = new ClassWriter(ClassWriter.COMPUTE_FRAMES);
 		classNode.accept(writer);
-		
 
-		byte[] result = writer.toByteArray();
-
-		CheckClassAdapter.verify(new ClassReader(result), true, new PrintWriter(System.out));
-		write("test.class", result);
+		return writer.toByteArray();
 	}
 
-	private void write(String name, byte[] array) throws IOException {
-
-		FileOutputStream out = new FileOutputStream(name);
-		out.write(array);
-		out.close();
-
-	}
 
 	void findBSM(ClassNode node) throws ClassNotFoundException,
 			AnalyzerException {
@@ -377,6 +357,25 @@ public class InvokeDynamicTransfer {
 			}
 		}
 
+	}
+
+	public static void main(String[] args) throws Exception {
+
+		ClassReader reader = new ClassReader(
+				TestInvokeDynamicConstantCallSite_plain.class.getName());
+
+		ClassNode node = new ClassNode();
+		reader.accept(node, 0);
+
+		byte[] result = new InvokeDynamicTransfer(node).transfer();
+
+		CheckClassAdapter.verify(new ClassReader(result), true, new PrintWriter(System.out));
+
+		FileOutputStream out = new FileOutputStream("gen/demo/invoke/TestInvokeDynamicConstantCallSite_plain.class");
+		out.write(result);
+		out.close();
+
+		
 	}
 
 }
