@@ -1,0 +1,15 @@
+<project name="invokedynamic" default="agent">
+
+	<target name="agent">
+		
+		<jar destfile="invoke-dynamic-agent.jar">
+			<manifest>
+				<attribute name="Premain-Class" value="invokedynamic.agent.Premain"/>
+			</manifest>
+			<fileset dir="bin" includes="invokedynamic/agent/*.class"></fileset>
+			<zipfileset  src="lib/asm-all-4.0.jar" includes="**/*.class"></zipfileset>
+		</jar>
+		
+	</target>
+	
+</project>

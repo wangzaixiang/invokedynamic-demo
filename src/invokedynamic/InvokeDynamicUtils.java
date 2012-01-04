@@ -20,6 +20,12 @@ public class InvokeDynamicUtils {
 		Class<?>[] args();
 		
 	}
+	
+	@Retention(RetentionPolicy.RUNTIME)
+	@Target(ElementType.TYPE)
+	public @interface InvokeDynamicTransformation {
+		
+	}
 
 	public static MethodHandle BootStrap(Object ...args) {
 		throw new UnsupportedOperationException();

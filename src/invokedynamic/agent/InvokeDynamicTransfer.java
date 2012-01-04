@@ -2,6 +2,7 @@ package invokedynamic.agent;
 
 import invokedynamic.InvokeDynamicUtils;
 import invokedynamic.InvokeDynamicUtils.InvokeDynamicBootstrap;
+import invokedynamic.InvokeDynamicUtils.InvokeDynamicTransformation;
 import invokedynamic.agent.EvaluationInterepter.DumpMethodHandle;
 
 import java.io.File;
@@ -34,7 +35,7 @@ import org.objectweb.asm.tree.analysis.AnalyzerException;
 import org.objectweb.asm.tree.analysis.Frame;
 import org.objectweb.asm.util.CheckClassAdapter;
 
-import demo.invoke.TestInvokeDynamicConstantCallSite_plain;
+import demo.invoke.TestInvokeDynamicConstantCallSite;
 
 public class InvokeDynamicTransfer {
 
@@ -98,6 +99,18 @@ public class InvokeDynamicTransfer {
 	public InvokeDynamicTransfer(ClassNode classNode) {
 		this.classNode = classNode;
 	}
+	
+	public boolean hasInvokeDynamicTransformation(){
+		
+		Type invokeDynamicTransformation = Type.getType(InvokeDynamicTransformation.class);
+		
+		for(AnnotationNode at: classNode.visibleAnnotations) {
+			if(at.desc.equals(invokeDynamicTransformation.getDescriptor()))
+					return true;
+		}
+		return false;
+	}
+	
 
 
 	byte[] transfer() throws Exception {
@@ -361,17 +374,22 @@ public class InvokeDynamicTransfer {
 
 	public static void main(String[] args) throws Exception {
 
+		System.out.println("HHH");
 		ClassReader reader = new ClassReader(
-				TestInvokeDynamicConstantCallSite_plain.class.getName());
+				TestInvokeDynamicConstantCallSite.class.getName());
 
 		ClassNode node = new ClassNode();
 		reader.accept(node, 0);
 
-		byte[] result = new InvokeDynamicTransfer(node).transfer();
+		InvokeDynamicTransfer transfer = new InvokeDynamicTransfer(node);
+		if(!transfer.hasInvokeDynamicTransformation())
+			return;
+		
+		byte[] result = transfer.transfer();
 
 		CheckClassAdapter.verify(new ClassReader(result), true, new PrintWriter(System.out));
 
-		FileOutputStream out = new FileOutputStream("gen/demo/invoke/TestInvokeDynamicConstantCallSite_plain.class");
+		FileOutputStream out = new FileOutputStream("gen/demo/invoke/TestInvokeDynamicConstantCallSite.class");
 		out.write(result);
 		out.close();
 

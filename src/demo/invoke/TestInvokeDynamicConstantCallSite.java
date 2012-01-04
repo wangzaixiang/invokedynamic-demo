@@ -3,13 +3,15 @@ package demo.invoke;
 import static invokedynamic.InvokeDynamicUtils.BootStrap;
 import invokedynamic.BootstrapUtils;
 import invokedynamic.InvokeDynamicUtils.InvokeDynamicBootstrap;
+import invokedynamic.InvokeDynamicUtils.InvokeDynamicTransformation;
 
 import java.lang.invoke.MethodHandle;
 
 /**
  * the template for InvokeDynamic
  */
-public class TestInvokeDynamicConstantCallSite_plain {
+@InvokeDynamicTransformation
+public class TestInvokeDynamicConstantCallSite{
 
 	@InvokeDynamicBootstrap(type=BootstrapUtils.class,
 			name="simpleCall",
